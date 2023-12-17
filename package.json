@@ -1,0 +1,24 @@
+{
+  "name": "fidelity-lunchmoney",
+  "version": "0.0.1",
+  "description": "Using SimpleFIN Bridge, this should help you sync your Fidelity assets with LunchMoney.",
+  "type": "commonjs",
+  "compilerOptions": {
+    "module": "CommonJS"
+  },
+  "main": "app.ts",
+  "scripts": {
+    "build": "esbuild --bundle --platform=node --outfile=build/run.js ./app.ts",
+    "start": "node build/run.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chintan Shah",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "esbuild": "^0.19.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5"
+  }
+}

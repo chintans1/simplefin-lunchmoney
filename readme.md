@@ -1,6 +1,6 @@
-# Fidelity Sync with LunchMoney
+# SimpleFIN Sync with LunchMoney
 
-Using SimpleFIN Bridge, this should help you sync your Fidelity assets with LunchMoney.
+Using SimpleFIN Bridge, this should help you sync SimpleFIN-connected banks with LunchMoney.
 
 ### Plan
 - [ ] Establish communication with SimpleFIN Bridge

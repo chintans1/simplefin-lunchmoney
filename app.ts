@@ -3,13 +3,14 @@ import { getSimpleFinAuth, getAccountsData, getClaimUrl } from './clients/simple
 import { init } from './init';
 import { prettifyJson } from './utils/json';
 import 'dotenv/config';
+import { Environment } from './models/enums/environment';
 
 async function run() {
   init();
   console.log("SimpleFIN Bridge");
+  console.log(Environment.SIMPLEFIN_APP_TOKEN);
 
-  const demoToken = process.env.SIMPLEFIN_APP_TOKEN!;
-  const claimUrl: string = getClaimUrl(demoToken);
+  const claimUrl: string = getClaimUrl(Environment.SIMPLEFIN_APP_TOKEN);
   const simpleFinAuth = await getSimpleFinAuth(claimUrl);
 
   // console.log(claimUrl);

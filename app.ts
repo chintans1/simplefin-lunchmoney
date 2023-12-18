@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { getSimpleFinAuth, getAccountsData, getClaimUrl } from './clients/simpleFinClient';
 import { init } from './init';
 import { prettifyJson } from './utils/json';
@@ -7,7 +8,7 @@ async function run() {
   init();
   console.log("SimpleFIN Bridge");
 
-  const demoToken = process.env.SIMPLEFIN_DEMO!;
+  const demoToken = process.env.SIMPLEFIN_APP_TOKEN!;
   const claimUrl: string = getClaimUrl(demoToken);
   const simpleFinAuth = await getSimpleFinAuth(claimUrl);
 
@@ -17,7 +18,8 @@ async function run() {
   const accountData = await getAccountsData(simpleFinAuth);
 
   console.log(accountData);
-  console.log(prettifyJson(await accountData.text()));
+  const data = prettifyJson(await accountData.text());
+  fs.writeFileSync("./fidelity_data.json", data);
 }
 
 run();

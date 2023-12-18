@@ -1,4 +1,5 @@
-import { SimpleFinAuthentication } from '../models/simpleFinAuth';
+import { AccountsResponse } from '../models/simplefin/accounts';
+import { SimpleFinAuthentication } from '../models/simplefin/authentication';
 import { getAuthentication, isAuthPresent, storeAuthenticationDetails } from '../utils/auth';
 
 export function getClaimUrl(setupToken: string): string {
@@ -19,6 +20,12 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
     }
   });
 
+  if (response.status != 200) {
+    throw new Error(`Could not fetch access URL,
+      got status ${response.status} with body ${await response.text()}\n
+      Ensure your credentials are not compromised!`);
+  }
+
   return await response.text().then(fullAccessUrl => {
     // TODO: Handle non-200 responses here
     console.log(`fullAccessUrl: ${fullAccessUrl}`);
@@ -35,11 +42,15 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
   });
 }
 
-export async function getAccountsData(simpleFinAuth: SimpleFinAuthentication) {
-  console.log(simpleFinAuth);
-  return fetch(`${simpleFinAuth.baseUrl}/accounts?start-date=1702191600`, {
+export async function getAccountsData(simpleFinAuth: SimpleFinAuthentication): Promise<AccountsResponse> {
+  const response = await fetch(`${simpleFinAuth.baseUrl}/accounts?start-date=1702191600`, {
     headers: {
       Authorization: `Basic ${btoa(`${simpleFinAuth.username}:${simpleFinAuth.password}`)}`
     }
   });
+
+  if (response.status != 200) {
+    throw new Error(`Could not fetch accounts data, got status ${response.status} with body ${await response.text()}`);
+  }
+  return response.json();
 }

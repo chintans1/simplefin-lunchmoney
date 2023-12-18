@@ -1,4 +1,4 @@
-import { SimpleFinAuthentication } from "../models/simpleFinAuth";
+import { SimpleFinAuthentication } from "../models/simplefin/authentication";
 import { LocalStorage } from "node-localstorage";
 import { LocalStorageKeys } from "../models/enums/localStorageKeys";
 import { Encrypter } from "./encrypt";

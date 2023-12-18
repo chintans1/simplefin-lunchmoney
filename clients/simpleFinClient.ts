@@ -27,8 +27,6 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
   }
 
   return await response.text().then(fullAccessUrl => {
-    // TODO: Handle non-200 responses here
-    console.log(`fullAccessUrl: ${fullAccessUrl}`);
     const [scheme, schemelessUrl] = fullAccessUrl.split("//");
     const [auth, url] = schemelessUrl.split('@');
 
@@ -43,6 +41,7 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
 }
 
 export async function getAccountsData(simpleFinAuth: SimpleFinAuthentication): Promise<AccountsResponse> {
+  // TODO: natively handle query params
   const response = await fetch(`${simpleFinAuth.baseUrl}/accounts?start-date=1702191600`, {
     headers: {
       Authorization: `Basic ${btoa(`${simpleFinAuth.username}:${simpleFinAuth.password}`)}`

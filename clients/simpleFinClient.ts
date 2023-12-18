@@ -11,6 +11,7 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
     return new Promise(resolve => resolve(getAuthentication()));
   }
 
+  console.log("Found no existing auth details, fetching fresh...");
   const response = await fetch(claimUrl, {
     method: "POST",
     headers: {
@@ -35,6 +36,7 @@ export async function getSimpleFinAuth(claimUrl: string): Promise<SimpleFinAuthe
 }
 
 export async function getAccountsData(simpleFinAuth: SimpleFinAuthentication) {
+  console.log(simpleFinAuth);
   return fetch(`${simpleFinAuth.baseUrl}/accounts?start-date=1702191600`, {
     headers: {
       Authorization: `Basic ${btoa(`${simpleFinAuth.username}:${simpleFinAuth.password}`)}`

@@ -1,6 +1,7 @@
 import { SimpleFinAuthentication } from "../models/simpleFinAuth";
 import { LocalStorage } from "node-localstorage";
 import { LocalStorageKeys } from "../models/enums/localStorageKeys";
+import { Encrypter } from "./encrypt";
 
 const localStorage = new LocalStorage('./lm-simplefin')
 
@@ -11,15 +12,19 @@ export function isAuthPresent(): boolean {
 }
 
 export function getAuthentication(): SimpleFinAuthentication {
+  const encrypter = new Encrypter(process.env.ENCRYPTION_METHOD!, process.env.ENCRYPTION_KEY!, process.env.ENCRYPTION_IV!);
+
   return {
-    baseUrl: localStorage.getItem(LocalStorageKeys.BASE_URL_KEY)!,
-    username: localStorage.getItem(LocalStorageKeys.USERNAME_KEY)!,
-    password: localStorage.getItem(LocalStorageKeys.PASSWORD_KEY)!
+    baseUrl: encrypter.dencrypt(localStorage.getItem(LocalStorageKeys.BASE_URL_KEY)!),
+    username: encrypter.dencrypt(localStorage.getItem(LocalStorageKeys.USERNAME_KEY)!),
+    password: encrypter.dencrypt(localStorage.getItem(LocalStorageKeys.PASSWORD_KEY)!)
   }
 }
 
 export function storeAuthenticationDetails(authDetails: SimpleFinAuthentication) {
-  localStorage.setItem(LocalStorageKeys.BASE_URL_KEY, authDetails.baseUrl);
-  localStorage.setItem(LocalStorageKeys.USERNAME_KEY, authDetails.username);
-  localStorage.setItem(LocalStorageKeys.PASSWORD_KEY, authDetails.password);
+  const encrypter = new Encrypter(process.env.ENCRYPTION_METHOD!, process.env.ENCRYPTION_KEY!, process.env.ENCRYPTION_IV!);
+
+  localStorage.setItem(LocalStorageKeys.BASE_URL_KEY, encrypter.encrypt(authDetails.baseUrl));
+  localStorage.setItem(LocalStorageKeys.USERNAME_KEY, encrypter.encrypt(authDetails.username));
+  localStorage.setItem(LocalStorageKeys.PASSWORD_KEY, encrypter.encrypt(authDetails.password));
 }

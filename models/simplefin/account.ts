@@ -10,7 +10,7 @@ export type SimpleFinAccount = {
   balance: string,
   "available-balance"?: string,
   "balance-date": EpochTimeStamp,
-  transactions: [SimpleFinTransaction],
-  holdings: [SimpleFinHolding],
+  transactions: SimpleFinTransaction[],
+  holdings: SimpleFinHolding[],
   extra: {}
 }

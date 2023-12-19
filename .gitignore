@@ -2,6 +2,7 @@
 node_modules/
 
 *_data.json
+lm_transactions.json
 lm-simplefin/
 
 build/
